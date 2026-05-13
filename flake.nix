@@ -10,11 +10,9 @@
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; };
-      lib = nixpkgs.lib;
-      version = "0.1.0";
       simple-service = pkgs.pkgsStatic.buildGoModule {
         name = "simple-service";
-        version = version;
+        version = "0.1.0";
         src = ./.;
         # There are only stdlib deps
         vendorHash = null;
@@ -25,7 +23,7 @@
         default = simple-service;
         docker-image = pkgs.dockerTools.buildLayeredImage {
           name = "simple-service";
-          tag = version;
+          tag = "latest";
           
           contents = [
             simple-service
