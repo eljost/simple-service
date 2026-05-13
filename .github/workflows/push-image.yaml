@@ -21,5 +21,5 @@ jobs:
         run: nix run .#push-docker-image
         env:
           REGISTRY: ghcr.io
-          REGISTRY_USER: ${{ GITHUB_ACTOR }}
+          REGISTRY_USER: ${{ github.actor }}
           REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
