@@ -1,0 +1,25 @@
+name: Main
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  push-docker-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish docker image to registry
+        run: nix run .#push-docker-image
+        env:
+          REGISTRY: ghcr.io
+          REGISTRY_USER: ${{ GITHUB_ACTOR }}
+          REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}

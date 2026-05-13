@@ -54,9 +54,11 @@
               TAGGED_IMAGE="simple-service:$GIT_TAG"
               echo "Pushing docker image '$TAGGED_IMAGE' to registry '$REGISTRY'"
 
+              # For testing with a local registry additional flags may be required
+              #   --dest-tls-verify=false \
+              # We use --insecure-policy because we only push a local file to a registry
               skopeo copy docker-archive:${dockerImage} docker://"''${REGISTRY}"/simple-service:"$GIT_TAG" \
-                --policy <(echo '{"default":[{"type":"insecureAcceptAnything"}]}') \
-                --dest-tls-verify=false \
+                --insecure-policy \
                 --dest-creds="''${REGISTRY_USER}:''${REGISTRY_PASSWORD}"
             '';
           }}/bin/push-docker-image";
