@@ -10,8 +10,9 @@ import (
 )
 
 func home(w http.ResponseWriter, r *http.Request) {
-	log.Printf("%s, %s, %s", r.Method, r.RequestURI, r.RemoteAddr)
-	fmt.Fprintf(w, "Hello, %q", html.EscapeString(r.URL.Path))
+	client := r.RemoteAddr
+	log.Printf("%s, %s, %s", r.Method, r.RequestURI, client)
+	fmt.Fprintf(w, "Hello '%s' on '%q'!", client, html.EscapeString(r.URL.Path))
 }
 
 func main() {
