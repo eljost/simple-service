@@ -50,14 +50,14 @@
             ];
             text = ''
               GIT_TAG=$(git describe --tags --always 2>/dev/null)
-              
               TAGGED_IMAGE="simple-service:$GIT_TAG"
-              echo "Pushing docker image '$TAGGED_IMAGE' to registry '$REGISTRY'"
+              DESTINATION="''${REGISTRY}/''${REGISTRY_USER}/simple-service:''${GIT_TAG}"
+              echo "Pushing docker image '$TAGGED_IMAGE' to '$DESTINATION'"
 
               # For testing with a local registry additional flags may be required
               #   --dest-tls-verify=false \
               # We use --insecure-policy because we only push a local file to a registry
-              skopeo copy docker-archive:${dockerImage} docker://"''${REGISTRY}"/simple-service:"$GIT_TAG" \
+              skopeo copy docker-archive:${dockerImage} docker://"''${DESTINATION}" \
                 --insecure-policy \
                 --dest-creds="''${REGISTRY_USER}:''${REGISTRY_PASSWORD}"
             '';
